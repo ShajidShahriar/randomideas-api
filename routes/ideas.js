@@ -36,6 +36,18 @@ router.get('/:id',(req,res) =>{
   }
   res.json({success: true ,data: idea })
 })
+//add an idea 
 
+router.post('/' , (req,res) =>{
+  const idea = {
+    id: ideas.length + 1,
+    text: req.body.text,
+    username: req.body.username,
+    tag: req.body.tag,
+    date: new Date().toISOString().slice(0,10),
+  }
+  ideas.push(idea)
+  res.json({ success: true , data: idea})
+})
 
 module.exports = router
