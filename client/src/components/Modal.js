@@ -6,7 +6,8 @@ class Modal{
     }
     addEventListeners(){
         this._modalBtn.addEventListener('click', this.open.bind(this))
-        this._modal.addEventListener('click',this.outsideClick.bind(this))
+        window.addEventListener('click',this.outsideClick.bind(this))
+        document.addEventListener('closemodal',() => this.close())
     }
 
     open(){
