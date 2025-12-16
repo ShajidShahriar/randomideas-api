@@ -1,5 +1,6 @@
 const path = require('path')
 const express  = require('express')
+const cors = require('cors')
 require('dotenv').config()
 
 const port = process.env.PORT
@@ -15,6 +16,11 @@ app.use(express.static(path.join(__dirname,'public')))
 //body parser middlewear
 app.use(express.json())
 app.use(express.urlencoded({ extended: false}));
+//cors middleware
+app.use(cors({
+  origin:['http://localhost:5001','http://localhost:3000'],
+  credentials:true,
+}))
 
 app.get('/',(req,res) =>{
   res.json({ message: 'welcome to my twitter app ' })
