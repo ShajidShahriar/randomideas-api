@@ -63,6 +63,9 @@ class IdeaList {
         idea.username === localStorage.getItem("username")
           ? `<button class="delete"><i class="fas fa-times"></i></button`
           : "";
+
+          const dateObj = new Date(idea.date);
+          const formattedDate = dateObj.toDateString();
       return `
             <div class="card" data-id="${idea._id}">
             ${deleteBtn}
@@ -71,7 +74,7 @@ class IdeaList {
           </h3>
           <p class="tag ${tagClass}">${idea.tag.toLocaleUpperCase()}</p>
           <p>
-            Posted on <span class="date">${idea.date}</span> by
+            Posted on <span class="date">${formattedDate}</span> by
             <span class="author">${idea.username}</span>
           </p>
         </div>`;
