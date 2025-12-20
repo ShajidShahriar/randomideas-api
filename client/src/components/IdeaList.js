@@ -11,18 +11,43 @@ class IdeaList {
     this._validTags.add("education");
     this._validTags.add("health");
     this._validTags.add("inventions");
+    this.addEventListeners()
   }
-
-  addEventListeners() {
+addEventListeners() {
     this._ideaListEl.addEventListener("click", (e) => {
-      if (e.target.classList.contains("fa-times")) {
+      // 1. Look for the closest element with class 'delete' (handles clicking icon OR button)
+      const deleteBtn = e.target.closest('.delete');
+      
+      // 2. Make sure the button exists before trying to access data
+      if (deleteBtn) {
         e.stopImmediatePropagation();
-        const ideaID = e.target.parentElement.parentElement.dataset.id;
-        console.log(ideaID);
+        
+        // 3. Since deleteBtn is the button, the parent is the card (div)
+        const ideaID = deleteBtn.parentElement.dataset.id;
+        
+        console.log("Deleting ID:", ideaID); // Debugging check
         this.deleteidea(ideaID);
       }
     });
   }
+
+  async deleteidea(ideaID) {
+    try {
+      // Delete from server
+      await IdeasApi.deleteIdea(ideaID); // Removed 'res' since you aren't using it
+      
+      // FIX: Assign the filtered array back to this._ideas
+      this._ideas = this._ideas.filter((idea) => idea._id !== ideaID);
+      
+      // Re-render immediately so the UI feels snappy
+      this.getIdeas(); 
+    } catch (error) {
+      alert("You can not delete this resource");
+      console.error(error);
+    }
+  }
+  
+  
   async getIdeas() {
     try {
       const res = await IdeasApi.getIdeas();
@@ -32,16 +57,7 @@ class IdeaList {
       console.log(error);
     }
   }
-  async deleteidea(ideaID) {
-    try {
-      //delete from server
-      const res = await IdeasApi.deleteIdea(ideaID);
-      this._ideas.filter((idea) => idea._id !== ideaID);
-      this.getIdeas();
-    } catch (error) {
-      alert("you can not delete this resource");
-    }
-  }
+
   addIdeaToList(idea) {
     this._ideas.push(idea);
     this.render();
@@ -78,8 +94,7 @@ class IdeaList {
             <span class="author">${idea.username}</span>
           </p>
         </div>`;
-    }).join("");
-    this.addEventListeners();
+    }).join('');
   }
 }
 
