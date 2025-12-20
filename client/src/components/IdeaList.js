@@ -78,7 +78,7 @@ class IdeaList {
             <span class="author">${idea.username}</span>
           </p>
         </div>`;
-    });
+    }).join("");
     this.addEventListeners();
   }
 }
