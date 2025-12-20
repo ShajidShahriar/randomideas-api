@@ -61,7 +61,7 @@ class IdeaList {
       const tagClass = this._getTagClass(idea.tag);
       const deleteBtn =
         idea.username === localStorage.getItem("username")
-          ? `<button class="delete"><i class="fas fa-times"></i></button`
+          ? `<button class="delete"><i class="fas fa-times"></i></button>`
           : "";
 
           const dateObj = new Date(idea.date);
